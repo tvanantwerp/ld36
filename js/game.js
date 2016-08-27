@@ -5,55 +5,55 @@ var interval;
 var calamities = {
   1: {
     name: 'escalator',
-    passengerReduction: .05,
+    passengerReduction: 5,
     timeToFix: 2,
     message: 'An escalator is malfunctioning',
   },
   2: {
     name: 'elevator',
-    passengerReduction: .1,
+    passengerReduction: 10,
     timeToFix: 2,
     message: 'An elevator is malfunctioning',
   },
   3: {
     name: 'smoke',
-    passengerReduction: .5,
+    passengerReduction: 5,
     timeToFix: 5,
     message: 'Smoke has filled the station',
   },
   4: {
     name: 'fire',
-    passengerReduction: 1,
+    passengerReduction: 100,
     timeToFix: 10,
     message: 'A fire has broken out',
   },
   5: {
     name: 'flood',
-    passengerReduction: 1,
+    passengerReduction: 100,
     timeToFix: 15,
     message: 'Flooding reported',
   },
   6: {
     name: 'violence',
-    passengerReduction: .7,
+    passengerReduction: 70,
     timeToFix: 3,
     message: 'Violent incident reported',
   },
   7: {
     name: 'suicide',
-    passengerReduction: .5,
+    passengerReduction: 50,
     timeToFix: 5,
     message: 'An individual was struck by a train',
   },
   8: {
     name: 'derailment',
-    passengerReduction: .9,
+    passengerReduction: 90,
     timeToFix: 15,
     message: 'A train has derailed',
   },
   9: {
     name: 'crash',
-    passengerReduction: .9,
+    passengerReduction: 90,
     timeToFix: 18,
     message: 'Two trains have crashed',
   },
@@ -125,7 +125,7 @@ var stations = {
     lines: ['red'],
   },
   17: {
-    name: 'For Totten',
+    name: 'Fort Totten',
     lines: ['green', 'red'],
   },
   18: {
@@ -443,6 +443,14 @@ var game = {
   state: {
     afflictions: [],
     afflictionCount: 0,
+    lineThroughput: {
+      blue: 100,
+      green: 100,
+      orange: 100,
+      red: 100,
+      silver: 100,
+      yellow: 100,
+    },
     day: 0,
     hour: 0,
     repairCrewsAvailable: 10,
@@ -506,19 +514,45 @@ var game = {
   },
 
   calamity: function () {
-    var thisCalamity = utils.getRandomIntInclusive(1, 9);
-    var thisStation = utils.getRandomIntInclusive(1, 91);
+    var thisCalamity = utils.getRandomIntInclusive(1, 9),
+        thisStation = utils.getRandomIntInclusive(1, 91);
+    var theCalamity = calamities[thisCalamity],
+        theStation = stations[thisStation];
+
+    // Add affliction to the list of afflictions
     game.state.afflictionCount++;
     game.state.afflictions[game.state.afflictionCount] = {
       type: thisCalamity,
+      station: thisStation,
+      reduction: theCalamity.passengerReduction,
+      linesAffected: theStation.lines,
     };
+
+    // Update line throughput
+    theStation.lines.forEach(function (line) {
+      game.state.lineThroughput[line] -= theCalamity.passengerReduction;
+      console.log(game.state.lineThroughput[line]);
+      if (game.state.lineThroughput[line] < 0) {
+        document.getElementById(line).innerHTML = 0;
+      } else {
+        document.getElementById(line).innerHTML = game.state.lineThroughput[line];
+      }
+    });
+
+    // Debug in console
+    // TODO remove when finished
     console.log(calamities[thisCalamity].message
       + ' at ' + stations[thisStation].name
       + ' at day ' + game.state.day
       + ' at ' + game.constants.hours[game.state.hour]);
   },
 
-  assignCrew: function () {
+  assignCrew: function (id) {
+    if (game.state.repairCrewsAvailable === 0) {
+      return;
+    }
+
+    game.state.repairCrewsAvailable--;
 
   },
 };

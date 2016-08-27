@@ -34,3 +34,7 @@ body {
   color: #ffaa22;
   cursor: pointer;
 }
+
+.afflictions {
+  overflow-y: scroll;
+}
