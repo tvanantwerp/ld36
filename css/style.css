@@ -26,6 +26,11 @@ body {
 
 }
 
-.station__center:hover {
+.station__center {
+  color: black;
+}
 
+.station:hover .station__center {
+  color: #ffaa22;
+  cursor: pointer;
 }
