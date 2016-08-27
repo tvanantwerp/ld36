@@ -426,6 +426,14 @@ var stations = {
   },
 };
 
+var utils = {
+  getRandomIntInclusive: function (min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  },
+};
+
 var game = {
   init: function () {
     game.update();
@@ -433,7 +441,8 @@ var game = {
   },
 
   state: {
-    afflictedStations: [],
+    afflictions: [],
+    afflictionCount: 0,
     day: 0,
     hour: 0,
     repairCrewsAvailable: 10,
@@ -470,8 +479,13 @@ var game = {
   },
 
   update: function () {
+    game.checkAfflictions();
     game.updateTime();
     game.rollTheDice();
+  },
+
+  checkAfflictions: function () {
+
   },
 
   updateTime: function () {
@@ -492,7 +506,16 @@ var game = {
   },
 
   calamity: function () {
-    console.log('Calamity at day ' + game.state.day + ' at ' + game.constants.hours[game.state.hour]);
+    var thisCalamity = utils.getRandomIntInclusive(1, 9);
+    var thisStation = utils.getRandomIntInclusive(1, 91);
+    game.state.afflictionCount++;
+    game.state.afflictions[game.state.afflictionCount] = {
+      type: thisCalamity,
+    };
+    console.log(calamities[thisCalamity].message
+      + ' at ' + stations[thisStation].name
+      + ' at day ' + game.state.day
+      + ' at ' + game.constants.hours[game.state.hour]);
   },
 
   assignCrew: function () {
