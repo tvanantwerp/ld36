@@ -1,0 +1,23 @@
+body {
+  align-items: center;
+  background-color: black;
+  color: #ff9922;
+  display: flex;
+  flex-direction: row;
+  font-family: monospace;
+  justify-content: center;
+  white-space: pre;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+}
+
+.metro-map {
+  flex: 1 0 70%;
+}
+
+.metro-controls {
+  flex: 1 0 30%;
+}
