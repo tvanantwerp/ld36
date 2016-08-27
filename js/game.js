@@ -454,7 +454,6 @@ var game = {
     day: 0,
     hour: 0,
     repairCrewsAvailable: 10,
-    repairCrewsAssigned: 0,
   },
 
   constants: {
@@ -528,6 +527,13 @@ var game = {
       linesAffected: theStation.lines,
     };
 
+    document.getElementById(thisStation).setAttribute('style', 'color: red');
+    document.getElementById(thisStation)
+      .setAttribute(
+        'onclick',
+        'game.assignCrew(' + game.state.afflictionCount + ')'
+      );
+
     // Update line throughput
     theStation.lines.forEach(function (line) {
       game.state.lineThroughput[line] -= theCalamity.passengerReduction;
@@ -552,8 +558,19 @@ var game = {
       return;
     }
 
-    game.state.repairCrewsAvailable--;
+    var affliction = game.state.afflictions[id];
 
+    game.state.repairCrewsAvailable--;
+    setTimeout(function () {
+      affliction.linesAffected.forEach(function (line) {
+        game.state.lineThroughput[line] += affliction.reduction;
+      });
+
+      game.state.repairCrewsAvailable++;
+      document.getElementById(id).setAttribute('style', '');
+      document.getElementById(id).setAttribute('onclick', '');
+      delete game.state.afflictions[id];
+    }, calamities[affliction.type].timeToFix);
   },
 };
 
