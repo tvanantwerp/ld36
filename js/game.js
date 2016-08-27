@@ -527,11 +527,11 @@ var game = {
       linesAffected: theStation.lines,
     };
 
-    document.getElementById(thisStation).setAttribute('style', 'color: red');
+    document.getElementById(thisStation).setAttribute('class', 'station afflicted');
     document.getElementById(thisStation)
       .setAttribute(
         'onclick',
-        'game.assignCrew(' + game.state.afflictionCount + ')'
+        'game.assignCrew(' + thisStation + ', ' + game.state.afflictionCount + ')'
       );
 
     // Update line throughput
@@ -553,24 +553,29 @@ var game = {
       + ' at ' + game.constants.hours[game.state.hour]);
   },
 
-  assignCrew: function (id) {
+  assignCrew: function (station, id) {
     if (game.state.repairCrewsAvailable === 0) {
+      console.log('No crews to repair station.');
       return;
     }
 
     var affliction = game.state.afflictions[id];
-
+    var timeToFix = calamities[affliction.type].timeToFix;
     game.state.repairCrewsAvailable--;
+    console.log('Assigning crew...');
+    document.getElementById(station).setAttribute('onclick', '');
+    document.getElementById(station).setAttribute('class', 'station repairing');
+
     setTimeout(function () {
       affliction.linesAffected.forEach(function (line) {
         game.state.lineThroughput[line] += affliction.reduction;
       });
 
       game.state.repairCrewsAvailable++;
-      document.getElementById(id).setAttribute('style', '');
-      document.getElementById(id).setAttribute('onclick', '');
+      document.getElementById(station).setAttribute('class', 'station');
+
       delete game.state.afflictions[id];
-    }, calamities[affliction.type].timeToFix);
+    }, timeToFix);
   },
 };
 

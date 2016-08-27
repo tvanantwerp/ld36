@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   align-items: center;
   background-color: black;
@@ -10,8 +16,10 @@ body {
 }
 
 .game {
+  align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .metro-map {
@@ -19,7 +27,14 @@ body {
 }
 
 .metro-controls {
+  display: flex;
   flex: 1 0 30%;
+  flex-direction: row;
+  width: 100%;
+}
+
+.metro-controls > * {
+  flex: 1 0 auto;;
 }
 
 .station {
@@ -33,6 +48,18 @@ body {
 .station:hover .station__center {
   color: #ffaa22;
   cursor: pointer;
+}
+
+.station.afflicted,
+.station.afflicted .station__center,
+.station:hover.afflicted .station__center {
+  color: red;
+}
+
+.station.repairing,
+.station.repairing .station__center,
+.station:hover.repairing .station__center {
+  color: green;
 }
 
 .afflictions {
