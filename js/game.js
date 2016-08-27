@@ -1,58 +1,60 @@
 'use strict'
 
+var interval;
+
 var calamities = {
   1: {
     name: 'escalator',
     passengerReduction: .05,
-    timeToFix: 5,
+    timeToFix: 2,
     message: 'An escalator is malfunctioning',
   },
   2: {
     name: 'elevator',
     passengerReduction: .1,
-    timeToFix: 5,
+    timeToFix: 2,
     message: 'An elevator is malfunctioning',
   },
   3: {
     name: 'smoke',
     passengerReduction: .5,
-    timeToFix: 15,
+    timeToFix: 5,
     message: 'Smoke has filled the station',
   },
   4: {
     name: 'fire',
     passengerReduction: 1,
-    timeToFix: 30,
+    timeToFix: 10,
     message: 'A fire has broken out',
   },
   5: {
     name: 'flood',
     passengerReduction: 1,
-    timeToFix: 30,
+    timeToFix: 15,
     message: 'Flooding reported',
   },
   6: {
     name: 'violence',
-    passengerReduction: .3,
-    timeToFix: 10,
+    passengerReduction: .7,
+    timeToFix: 3,
     message: 'Violent incident reported',
   },
   7: {
     name: 'suicide',
     passengerReduction: .5,
-    timeToFix: 20,
+    timeToFix: 5,
     message: 'An individual was struck by a train',
   },
   8: {
     name: 'derailment',
-    passengerReduction: 1,
-    timeToFix: 50,
+    passengerReduction: .9,
+    timeToFix: 15,
     message: 'A train has derailed',
   },
   9: {
     name: 'crash',
-    passengerReduction: 1,
-    timeToFix: 100,
+    passengerReduction: .9,
+    timeToFix: 18,
     message: 'Two trains have crashed',
   },
 };
@@ -426,22 +428,75 @@ var stations = {
 
 var game = {
   init: function () {
-    game.setStationIds();
+    game.update();
+    interval = setInterval(function () { game.update(); }, game.constants.cycleTime);
   },
 
   state: {
-
+    afflictedStations: [],
+    day: 0,
+    hour: 0,
+    repairCrewsAvailable: 10,
+    repairCrewsAssigned: 0,
   },
 
   constants: {
-    cycleTime: 1000,
+    calamityOdds: .2,
+    cycleTime: 900,
+    dayLength: 18,
+    hours: {
+      0: '06:00AM',
+      1: '07:00AM',
+      2: '08:00AM',
+      3: '09:00AM',
+      4: '10:00AM',
+      5: '11:00AM',
+      6: '12:00AM',
+      7: '01:00PM',
+      8: '02:00PM',
+      9: '03:00PM',
+      10: '04:00PM',
+      11: '05:00PM',
+      12: '06:00PM',
+      13: '07:00PM',
+      14: '08:00PM',
+      15: '09:00PM',
+      16: '10:00PM',
+      17: '11:00PM',
+      18: '12:00PM',
+    },
+    hourDisplay: document.getElementById('hour'),
+    dayDisplay: document.getElementById('day'),
   },
 
-  setStationIds: function () {
-    var stations = document.getElementsByClassName('station');
-    for (var i = 0, j = stations.length; i < j; i++) {
-      stations[i].setAttribute('id', i + 1);
+  update: function () {
+    game.updateTime();
+    game.rollTheDice();
+  },
+
+  updateTime: function () {
+    game.constants.dayDisplay.innerHTML = game.state.day;
+    game.constants.hourDisplay.innerHTML = game.constants.hours[game.state.hour];
+    if (game.state.hour < 18) {
+      game.state.hour += 1;
+    } else {
+      game.state.hour = 0;
+      game.state.day += 1;
     }
+  },
+
+  rollTheDice: function () {
+    if (Math.random() < game.constants.calamityOdds) {
+      game.calamity();
+    }
+  },
+
+  calamity: function () {
+    console.log('Calamity at day ' + game.state.day + ' at ' + game.constants.hours[game.state.hour]);
+  },
+
+  assignCrew: function () {
+
   },
 };
 
