@@ -6,7 +6,7 @@
 
 body {
   align-items: center;
-  background-color: black;
+  background-color: #0d0a05;
   color: #ffaa22;
   display: flex;
   flex-direction: row;
@@ -57,7 +57,7 @@ body {
 }
 
 .station__center {
-  color: black;
+  color: #0d0a05;
 }
 
 .station:hover .station__center {
@@ -103,7 +103,7 @@ body {
 
 .button {
   background-color: #ffaa22;
-  color: black;
+  color: #0d0a05;
   cursor: pointer;
   padding: 5px;
   text-align: center;
