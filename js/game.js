@@ -504,14 +504,12 @@ var game = {
       if (game.state.lineThroughput[line] > 0) {
         game.state.cyclesDown = 0;
         break;
-      }
-    }
+      } else {
+        game.state.cyclesDown++;
 
-    if (game.state.cyclesDown > 0) {
-      game.state.cyclesDown++;
-
-      if (game.state.cyclesDown >= game.constants.cyclesTilLoss) {
-        game.over();
+        if (game.state.cyclesDown >= game.constants.cyclesTilLoss) {
+          game.over();
+        }
       }
     }
   },
@@ -535,8 +533,9 @@ var game = {
 
   calamity: function () {
     var thisCalamity = Math.ceil(Math.pow(utils.getRandomIntInclusive(1, 10), 2) / 10),
-        thisStation = utils.getRandomIntInclusive(1, 91);
-    console.log(thisCalamity);
+        thisStation = game.chooseStation();
+
+
     var theCalamity = calamities[thisCalamity],
         theStation = stations[thisStation];
 
@@ -593,6 +592,20 @@ var game = {
       document.getElementById(station).setAttribute('class', 'station');
       delete game.state.afflictions[id];
     }, timeToFix * game.constants.cycleTime);
+  },
+
+  chooseStation: function () {
+    var station = utils.getRandomIntInclusive(1, 91);
+    var stations = [];
+    for (var affliction in game.state.afflictions) {
+      stations.push(game.state.afflictions[affliction].station);
+    }
+
+    if (stations.indexOf(station) > -1) {
+      return game.chooseStation();
+    } else {
+      return station;
+    }
   },
 
   updateLineThroughputDisplay: function (line) {
