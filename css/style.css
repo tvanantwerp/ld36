@@ -1,7 +1,6 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  overflow: hidden;
   padding: 0;
 }
 
@@ -13,7 +12,24 @@ body {
   flex-direction: row;
   font-family: monospace;
   justify-content: center;
-  white-space: pre;
+}
+
+.container {
+  max-width: 950px;
+}
+
+.intro,
+.game-over {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.intro p,
+.game-over p {
+  margin-bottom: 10px;
 }
 
 .game {
@@ -21,6 +37,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+  white-space: pre;
 }
 
 .metro-map {
@@ -81,4 +99,12 @@ body {
   justify-content: flex-end;
   overflow: hidden;
   width: 65%;
+}
+
+.button {
+  background-color: #ffaa22;
+  color: black;
+  cursor: pointer;
+  padding: 5px;
+  text-align: center;
 }
