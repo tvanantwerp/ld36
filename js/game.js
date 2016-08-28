@@ -470,12 +470,12 @@ var game = {
     },
     day: 0,
     hour: 0,
-    repairCrewsAvailable: 10,
+    repairCrewsAvailable: 5,
     cyclesDown: 0,
   },
 
   constants: {
-    calamityOdds: .2,
+    calamityOdds: .4,
     cycleTime: 900,
     dayLength: 18,
     cyclesTilLoss: 9,
@@ -546,7 +546,7 @@ var game = {
   },
 
   calamity: function () {
-    var thisCalamity = Math.ceil(Math.pow(utils.getRandomIntInclusive(1, 10), 2) / 10),
+    var thisCalamity = Math.ceil(Math.pow(utils.getRandomIntInclusive(1, 10), 3) / 100),
         thisStation = game.chooseStation();
 
 
@@ -580,7 +580,7 @@ var game = {
     // Update list of actions and events
     document.getElementById('events').innerHTML += '<p' + serious + '>'
       + 'Day ' + game.state.day + ' '
-      + ' at ' + game.constants.hours[game.state.hour] + ' - '
+      + 'at ' + game.constants.hours[game.state.hour] + ' - '
       + calamities[thisCalamity].message
       + ' at ' + stations[thisStation].name
       + '</p>';
@@ -605,7 +605,7 @@ var game = {
     document.getElementById('crews').innerHTML = game.state.repairCrewsAvailable;
     document.getElementById('events').innerHTML += '<p class="event--repairs">'
       + 'Day ' + game.state.day + ' '
-      + ' at ' + game.constants.hours[game.state.hour] + ' - '
+      + 'at ' + game.constants.hours[game.state.hour] + ' - '
       + 'Assigning crew to '
       + stations[station].name
       + '</p>';
@@ -624,7 +624,7 @@ var game = {
       delete game.state.afflictions[id];
       document.getElementById('events').innerHTML += '<p class="event--repairs">'
         + 'Day ' + game.state.day + ' '
-        + ' at ' + game.constants.hours[game.state.hour] + ' - '
+        + 'at ' + game.constants.hours[game.state.hour] + ' - '
         + 'Repairs complete at '
         + stations[station].name
         + '</p>';

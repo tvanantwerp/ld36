@@ -71,19 +71,23 @@
                            <span class="station" id="90">[<span class="station__center">■</span>]</span>                        <span class="station" id="91">[<span class="station__center">■</span>]</span>
       </div>
       <div class="metro-controls">
-        <div class="time">
-          <p>Time: <span id="hour"></span></p>
-          <p>Days Passed: <span id="day"></span></p>
-          <p>Repairmen: <span id="crews"></span></p>
-        </div>
-        <div class="lines">
-            <p class="lines__line lines__line--blue">Blue: <span id="blue">100</span>%</p>
-            <p class="lines__line lines__line--green">Green: <span id="green">100</span>%</p>
-            <p class="lines__line lines__line--orange">Orange: <span id="orange">100</span>%</p>
-            <p class="lines__line lines__line--red">Red: <span id="red">100</span>%</p>
-            <p class="lines__line lines__line--silver">Silver: <span id="silver">100</span>%</p>
-            <p class="lines__line lines__line--yellow">Yellow: <span id="yellow">100</span>%</p>
-        </div>
+        <table class="time">
+          <tbody>
+            <tr><td>Time:</td><td style="text-align: right" id="hour"></td></tr>
+            <tr><td>Days Passed:</td><td style="text-align: right" id="day"></td></tr>
+            <tr><td>Repairmen:</td><td style="text-align: right" id="crews"></td></tr>
+        </tbody>
+        </table>
+        <table class="lines">
+          <tbody>
+            <tr><td class="lines__line lines__line--blue">Blue:</td><td style="text-align: right"><span id="blue">100</span>%</td></tr>
+            <tr><td class="lines__line lines__line--green">Green:</td><td style="text-align: right"><span id="green">100</span>%</td></tr>
+            <tr><td class="lines__line lines__line--orange">Orange:</td><td style="text-align: right"><span id="orange">100</span>%</td></tr>
+            <tr><td class="lines__line lines__line--red">Red:</td><td style="text-align: right"><span id="red">100</span>%</td></tr>
+            <tr><td class="lines__line lines__line--silver">Silver:</td><td style="text-align: right"><span id="silver">100</span>%</td></tr>
+            <tr><td class="lines__line lines__line--yellow">Yellow:</td><td style="text-align: right"><span id="yellow">100</span>%</td></tr>
+          </tbody>
+        </table>
         <div class="events" id="events">
 
         </div>

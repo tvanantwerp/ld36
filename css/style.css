@@ -34,8 +34,8 @@ body {
   width: 100%;
 }
 
-.station {
-
+.metro-controls > * {
+  padding: 5px;
 }
 
 .station__center {
@@ -75,11 +75,4 @@ body {
   justify-content: flex-end;
   overflow: hidden;
   width: 65%;
-}
-
-.lines,
-.time {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
 }
