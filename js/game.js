@@ -62,10 +62,10 @@ var calamities = {
     serious: true,
   },
   8: {
-    name: 'fire',
+    name: 'electric',
     passengerReduction: 100,
     timeToFix: 10,
-    message: 'A fire has broken out',
+    message: 'Electrical outage',
     serious: true,
   },
   9: {
@@ -76,10 +76,10 @@ var calamities = {
     serious: true,
   },
   10: {
-    name: 'terrorism',
+    name: 'fire',
     passengerReduction: 100,
     timeToFix: 30,
-    message: 'Terrorists have attacked',
+    message: 'Fire has broken out',
     serious: true,
   },
 };
