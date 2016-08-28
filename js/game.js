@@ -500,17 +500,20 @@ var game = {
   },
 
   checkAfflictions: function () {
+    var allDown = true;
     for (var line in game.state.lineThroughput) {
       if (game.state.lineThroughput[line] > 0) {
-        game.state.cyclesDown = 0;
+        allDown = false;
         break;
-      } else {
-        game.state.cyclesDown++;
-
-        if (game.state.cyclesDown >= game.constants.cyclesTilLoss) {
-          game.over();
-        }
       }
+    }
+
+    if (allDown === true) {
+      game.state.cyclesDown++;
+    }
+
+    if (game.state.cyclesDown >= game.constants.cyclesTilLoss) {
+      game.over();
     }
   },
 
@@ -561,6 +564,14 @@ var game = {
       game.updateLineThroughputDisplay(line);
     });
 
+    // Update list of actions and events
+    document.getElementById('events').innerHTML += '<p>'
+      + 'Day ' + game.state.day + ' '
+      + ' at ' + game.constants.hours[game.state.hour] + ' - '
+      + calamities[thisCalamity].message
+      + ' at ' + stations[thisStation].name
+      + '</p>';
+
     // Debug in console
     // TODO remove when finished
     console.log(calamities[thisCalamity].message
@@ -578,7 +589,12 @@ var game = {
     var affliction = game.state.afflictions[id];
     var timeToFix = calamities[affliction.type].timeToFix;
     game.state.repairCrewsAvailable--;
-    console.log('Assigning crew...');
+    document.getElementById('events').innerHTML += '<p>'
+      + 'Day ' + game.state.day + ' '
+      + ' at ' + game.constants.hours[game.state.hour] + ' - '
+      + 'Assigning crew to '
+      + stations[station].name
+      + '</p>';
     document.getElementById(station).setAttribute('onclick', '');
     document.getElementById(station).setAttribute('class', 'station repairing');
 
@@ -591,6 +607,12 @@ var game = {
       game.state.repairCrewsAvailable++;
       document.getElementById(station).setAttribute('class', 'station');
       delete game.state.afflictions[id];
+      document.getElementById('events').innerHTML += '<p>'
+        + 'Day ' + game.state.day + ' '
+        + ' at ' + game.constants.hours[game.state.hour] + ' - '
+        + 'Repairs complete at '
+        + stations[station].name
+        + '</p>';
     }, timeToFix * game.constants.cycleTime);
   },
 

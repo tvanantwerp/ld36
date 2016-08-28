@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   margin: 0;
+  overflow: hidden;
   padding: 0;
 }
 
@@ -33,10 +34,6 @@ body {
   width: 100%;
 }
 
-.metro-controls > * {
-  flex: 1 0 auto;;
-}
-
 .station {
 
 }
@@ -61,7 +58,25 @@ body {
 .station:hover.repairing .station__center {
   color: green;
 }
+.lines {
+  width: 15%;
+}
 
-.afflictions {
-  overflow-y: scroll;
+.time {
+  width: 20%;
+}
+
+.events {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  overflow: hidden;
+  width: 65%;
+}
+
+.lines,
+.time {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
