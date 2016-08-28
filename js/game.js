@@ -10,53 +10,59 @@ var calamities = {
     message: 'An escalator is malfunctioning',
   },
   2: {
-    name: 'elevator',
-    passengerReduction: 10,
-    timeToFix: 2,
-    message: 'An elevator is malfunctioning',
-  },
-  3: {
     name: 'smoke',
     passengerReduction: 5,
     timeToFix: 5,
     message: 'Smoke has filled the station',
   },
+  3: {
+    name: 'elevator',
+    passengerReduction: 10,
+    timeToFix: 2,
+    message: 'An elevator is malfunctioning',
+  },
   4: {
-    name: 'fire',
-    passengerReduction: 100,
-    timeToFix: 10,
-    message: 'A fire has broken out',
-  },
-  5: {
-    name: 'flood',
-    passengerReduction: 100,
-    timeToFix: 15,
-    message: 'Flooding reported',
-  },
-  6: {
-    name: 'violence',
-    passengerReduction: 70,
-    timeToFix: 3,
-    message: 'Violent incident reported',
-  },
-  7: {
     name: 'suicide',
     passengerReduction: 50,
     timeToFix: 5,
     message: 'An individual was struck by a train',
   },
-  8: {
+  5: {
+    name: 'violence',
+    passengerReduction: 70,
+    timeToFix: 3,
+    message: 'Violent incident reported',
+  },
+  6: {
     name: 'derailment',
     passengerReduction: 90,
     timeToFix: 15,
     message: 'A train has derailed',
   },
-  9: {
+  7: {
     name: 'crash',
     passengerReduction: 90,
     timeToFix: 18,
     message: 'Two trains have crashed',
   },
+  8: {
+    name: 'fire',
+    passengerReduction: 100,
+    timeToFix: 10,
+    message: 'A fire has broken out',
+  },
+  9: {
+    name: 'flood',
+    passengerReduction: 100,
+    timeToFix: 15,
+    message: 'Flooding reported',
+  },
+  10: {
+    name: 'terrorism',
+    passengerReduction: 100,
+    timeToFix: 30,
+    message: 'Terrorist attack reported',
+  }
 };
 
 var stations = {
@@ -454,12 +460,14 @@ var game = {
     day: 0,
     hour: 0,
     repairCrewsAvailable: 10,
+    cyclesDown: 0,
   },
 
   constants: {
-    calamityOdds: .05,
+    calamityOdds: .2,
     cycleTime: 900,
     dayLength: 18,
+    cyclesTilLoss: 9,
     hours: {
       0: '06:00AM',
       1: '07:00AM',
@@ -486,13 +494,26 @@ var game = {
   },
 
   update: function () {
-    game.checkAfflictions();
     game.updateTime();
+    game.checkAfflictions();
     game.rollTheDice();
   },
 
   checkAfflictions: function () {
+    for (var line in game.state.lineThroughput) {
+      if (game.state.lineThroughput[line] > 0) {
+        game.state.cyclesDown = 0;
+        break;
+      }
+    }
 
+    if (game.state.cyclesDown > 0) {
+      game.state.cyclesDown++;
+
+      if (game.state.cyclesDown >= game.constants.cyclesTilLoss) {
+        game.over();
+      }
+    }
   },
 
   updateTime: function () {
@@ -513,8 +534,9 @@ var game = {
   },
 
   calamity: function () {
-    var thisCalamity = utils.getRandomIntInclusive(1, 9),
+    var thisCalamity = Math.ceil(Math.pow(utils.getRandomIntInclusive(1, 10), 2) / 10),
         thisStation = utils.getRandomIntInclusive(1, 91);
+    console.log(thisCalamity);
     var theCalamity = calamities[thisCalamity],
         theStation = stations[thisStation];
 
@@ -579,6 +601,10 @@ var game = {
     } else {
       document.getElementById(line).innerHTML = game.state.lineThroughput[line];
     }
+  },
+
+  over: function () {
+    clearInterval(interval);
   },
 };
 
