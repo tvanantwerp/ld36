@@ -2,6 +2,15 @@
 
 var interval;
 
+var lines = [
+  'blue',
+  'green',
+  'orange',
+  'red',
+  'silver',
+  'yellow',
+];
+
 var calamities = {
   1: {
     name: 'escalator',
@@ -67,10 +76,10 @@ var calamities = {
     serious: true,
   },
   10: {
-    name: 'collapse',
+    name: 'terrorism',
     passengerReduction: 100,
     timeToFix: 30,
-    message: 'A tunnel has collapsed',
+    message: 'Terrorists have attacked',
     serious: true,
   },
 };
@@ -142,7 +151,7 @@ var stations = {
   },
   17: {
     name: 'Fort Totten',
-    lines: ['green', 'red'],
+    lines: ['green', 'red', 'yellow'],
   },
   18: {
     name: 'Friendship Heights',
@@ -451,7 +460,35 @@ var utils = {
 };
 
 var game = {
-  init: function () {
+  start: function () {
+    game.state = {
+      afflictions: [],
+      afflictionCount: 0,
+      lineThroughput: {
+        blue: 100,
+        green: 100,
+        orange: 100,
+        red: 100,
+        silver: 100,
+        yellow: 100,
+      },
+      day: 0,
+      hour: 0,
+      repairCrewsAvailable: 5,
+      cyclesDown: 0,
+    };
+    document.getElementById('events').innerHTML = '';
+    for (var s in stations) {
+      document.getElementById(s).setAttribute('class', 'station');
+    }
+
+    lines.forEach(function (line) {
+      document.getElementById(line).innerHTML = 100;
+    });
+
+    document.getElementById('intro').setAttribute('style', 'display: none');
+    document.getElementById('game-over').setAttribute('style', 'display: none');
+    document.getElementById('game').setAttribute('style', '');
     document.getElementById('crews').innerHTML = game.state.repairCrewsAvailable;
     game.update();
     interval = setInterval(function () { game.update(); }, game.constants.cycleTime);
@@ -584,13 +621,6 @@ var game = {
       + calamities[thisCalamity].message
       + ' at ' + stations[thisStation].name
       + '</p>';
-
-    // Debug in console
-    // TODO remove when finished
-    console.log(calamities[thisCalamity].message
-      + ' at ' + stations[thisStation].name
-      + ' at day ' + game.state.day
-      + ' at ' + game.constants.hours[game.state.hour]);
   },
 
   assignCrew: function (station, id) {
@@ -655,7 +685,9 @@ var game = {
 
   over: function () {
     clearInterval(interval);
+    document.getElementById('game').setAttribute('style', 'display: none');
+    document.getElementById('final-days').innerHTML = game.state.day;
+    document.getElementById('final-hours').innerHTML = game.state.hour;
+    document.getElementById('game-over').setAttribute('style', '');
   },
 };
-
-game.init();
