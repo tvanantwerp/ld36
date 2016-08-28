@@ -47,10 +47,16 @@ body {
   cursor: pointer;
 }
 
-.event--serious,
 .station.afflicted,
 .station.afflicted .station__center,
 .station:hover.afflicted .station__center {
+  color: #ff5522;
+}
+
+.event--serious,
+.station.afflicted--serious,
+.station.afflicted--serious .station__center,
+.station:hover.afflicted--serious .station__center {
   color: red;
 }
 

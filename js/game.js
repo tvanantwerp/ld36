@@ -67,12 +67,12 @@ var calamities = {
     serious: true,
   },
   10: {
-    name: 'terrorism',
+    name: 'collapse',
     passengerReduction: 100,
     timeToFix: 30,
-    message: 'Terrorist attack reported',
+    message: 'A tunnel has collapsed',
     serious: true,
-  }
+  },
 };
 
 var stations = {
@@ -553,6 +553,8 @@ var game = {
     var theCalamity = calamities[thisCalamity],
         theStation = stations[thisStation];
 
+    var serious = theCalamity.serious ? '--serious' : '';
+
     // Add affliction to the list of afflictions
     game.state.afflictionCount++;
     game.state.afflictions[game.state.afflictionCount] = {
@@ -562,7 +564,7 @@ var game = {
       linesAffected: theStation.lines,
     };
 
-    document.getElementById(thisStation).setAttribute('class', 'station afflicted');
+    document.getElementById(thisStation).setAttribute('class', 'station afflicted' + serious);
     document.getElementById(thisStation)
       .setAttribute(
         'onclick',
@@ -575,10 +577,8 @@ var game = {
       game.updateLineThroughputDisplay(line);
     });
 
-    var serious = theCalamity.serious ? ' class="event--serious"' : '';
-
     // Update list of actions and events
-    document.getElementById('events').innerHTML += '<p' + serious + '>'
+    document.getElementById('events').innerHTML += '<p class="event' + serious + '">'
       + 'Day ' + game.state.day + ' '
       + 'at ' + game.constants.hours[game.state.hour] + ' - '
       + calamities[thisCalamity].message
