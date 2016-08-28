@@ -47,17 +47,20 @@ body {
   cursor: pointer;
 }
 
+.event--serious,
 .station.afflicted,
 .station.afflicted .station__center,
 .station:hover.afflicted .station__center {
   color: red;
 }
 
+.event--repairs,
 .station.repairing,
 .station.repairing .station__center,
 .station:hover.repairing .station__center {
   color: green;
 }
+
 .lines {
   width: 15%;
 }

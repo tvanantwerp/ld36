@@ -8,60 +8,70 @@ var calamities = {
     passengerReduction: 5,
     timeToFix: 2,
     message: 'An escalator is malfunctioning',
+    serious: false,
   },
   2: {
     name: 'smoke',
     passengerReduction: 5,
     timeToFix: 5,
     message: 'Smoke has filled the station',
+    serious: false,
   },
   3: {
     name: 'elevator',
     passengerReduction: 10,
     timeToFix: 2,
     message: 'An elevator is malfunctioning',
+    serious: false,
   },
   4: {
     name: 'suicide',
     passengerReduction: 50,
     timeToFix: 5,
     message: 'An individual was struck by a train',
+    serious: false,
   },
   5: {
     name: 'violence',
     passengerReduction: 70,
     timeToFix: 3,
     message: 'Violent incident reported',
+    serious: true,
   },
   6: {
     name: 'derailment',
     passengerReduction: 90,
     timeToFix: 15,
     message: 'A train has derailed',
+    serious: true,
   },
   7: {
     name: 'crash',
     passengerReduction: 90,
     timeToFix: 18,
     message: 'Two trains have crashed',
+    serious: true,
   },
   8: {
     name: 'fire',
     passengerReduction: 100,
     timeToFix: 10,
     message: 'A fire has broken out',
+    serious: true,
   },
   9: {
     name: 'flood',
     passengerReduction: 100,
     timeToFix: 15,
     message: 'Flooding reported',
+    serious: true,
   },
   10: {
     name: 'terrorism',
     passengerReduction: 100,
     timeToFix: 30,
     message: 'Terrorist attack reported',
+    serious: true,
   }
 };
 
@@ -442,6 +452,7 @@ var utils = {
 
 var game = {
   init: function () {
+    document.getElementById('crews').innerHTML = game.state.repairCrewsAvailable;
     game.update();
     interval = setInterval(function () { game.update(); }, game.constants.cycleTime);
   },
@@ -564,8 +575,10 @@ var game = {
       game.updateLineThroughputDisplay(line);
     });
 
+    var serious = theCalamity.serious ? ' class="event--serious"' : '';
+
     // Update list of actions and events
-    document.getElementById('events').innerHTML += '<p>'
+    document.getElementById('events').innerHTML += '<p' + serious + '>'
       + 'Day ' + game.state.day + ' '
       + ' at ' + game.constants.hours[game.state.hour] + ' - '
       + calamities[thisCalamity].message
@@ -589,7 +602,8 @@ var game = {
     var affliction = game.state.afflictions[id];
     var timeToFix = calamities[affliction.type].timeToFix;
     game.state.repairCrewsAvailable--;
-    document.getElementById('events').innerHTML += '<p>'
+    document.getElementById('crews').innerHTML = game.state.repairCrewsAvailable;
+    document.getElementById('events').innerHTML += '<p class="event--repairs">'
       + 'Day ' + game.state.day + ' '
       + ' at ' + game.constants.hours[game.state.hour] + ' - '
       + 'Assigning crew to '
@@ -605,9 +619,10 @@ var game = {
       });
 
       game.state.repairCrewsAvailable++;
+      document.getElementById('crews').innerHTML = game.state.repairCrewsAvailable;
       document.getElementById(station).setAttribute('class', 'station');
       delete game.state.afflictions[id];
-      document.getElementById('events').innerHTML += '<p>'
+      document.getElementById('events').innerHTML += '<p class="event--repairs">'
         + 'Day ' + game.state.day + ' '
         + ' at ' + game.constants.hours[game.state.hour] + ' - '
         + 'Repairs complete at '
