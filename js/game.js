@@ -457,7 +457,7 @@ var game = {
   },
 
   constants: {
-    calamityOdds: .2,
+    calamityOdds: .05,
     cycleTime: 900,
     dayLength: 18,
     hours: {
@@ -537,12 +537,7 @@ var game = {
     // Update line throughput
     theStation.lines.forEach(function (line) {
       game.state.lineThroughput[line] -= theCalamity.passengerReduction;
-      console.log(game.state.lineThroughput[line]);
-      if (game.state.lineThroughput[line] < 0) {
-        document.getElementById(line).innerHTML = 0;
-      } else {
-        document.getElementById(line).innerHTML = game.state.lineThroughput[line];
-      }
+      game.updateLineThroughputDisplay(line);
     });
 
     // Debug in console
@@ -569,13 +564,21 @@ var game = {
     setTimeout(function () {
       affliction.linesAffected.forEach(function (line) {
         game.state.lineThroughput[line] += affliction.reduction;
+        game.updateLineThroughputDisplay(line);
       });
 
       game.state.repairCrewsAvailable++;
       document.getElementById(station).setAttribute('class', 'station');
-
       delete game.state.afflictions[id];
-    }, timeToFix);
+    }, timeToFix * game.constants.cycleTime);
+  },
+
+  updateLineThroughputDisplay: function (line) {
+    if (game.state.lineThroughput[line] < 0) {
+      document.getElementById(line).innerHTML = 0;
+    } else {
+      document.getElementById(line).innerHTML = game.state.lineThroughput[line];
+    }
   },
 };
 
