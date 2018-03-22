@@ -14,6 +14,14 @@ body {
   justify-content: center;
 }
 
+a,
+a:active,
+a:focus,
+a:hover,
+a:visited {
+  color: #ffaa22;
+}
+
 .container {
   font-size: 1vw;
   max-width: 950px;
@@ -23,6 +31,12 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@media (min-width: 960px) {
+  .container {
+    font-size: 12px;
+  }
 }
 
 .intro,
