@@ -1,17 +1,17 @@
 'use strict'
 
-var interval;
+var interval,
 
-var lines = [
+lines = [
   'blue',
   'green',
   'orange',
   'red',
   'silver',
   'yellow',
-];
+],
 
-var calamities = {
+calamities = {
   1: {
     name: 'escalator',
     passengerReduction: 5,
@@ -82,9 +82,9 @@ var calamities = {
     message: 'Fire has broken out',
     serious: true,
   },
-};
+},
 
-var stations = {
+stations = {
   1: {
     name: 'Glenmont',
     lines: ['red'],
@@ -449,17 +449,17 @@ var stations = {
     name: 'Huntington',
     lines: ['yellow'],
   },
-};
+},
 
-var utils = {
+utils = {
   getRandomIntInclusive: function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   },
-};
+},
 
-var game = {
+game = {
   start: function () {
     game.state = {
       afflictions: [],
